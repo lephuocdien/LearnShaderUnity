@@ -6,10 +6,10 @@ Shader "Custom/MyFirstShader"
     {
         _Tint("Tint",Color)=(1,1,1,1)
         _MainTex("Texture",2D)="white"
+        _Angle("Angle",float)=1
     }
     SubShader
     {
-       
         Pass
         {
             CGPROGRAM
@@ -18,7 +18,7 @@ Shader "Custom/MyFirstShader"
             #include "UnityCG.cginc"
             float4 _Tint;
             sampler2D _MainTex;
-          
+            float _Angle;      
             struct Interpolators 
             {
                 float4 position : SV_POSITION;
@@ -30,9 +30,19 @@ Shader "Custom/MyFirstShader"
 				float4 position : POSITION;
 				float2 uv : TEXCOORD0;
 			};
+            float RotateAroundYInDegrees(float4 vertex, float degrees)
+            {
+                float alpha = degrees * UNITY_PI / 180.0;
+                float sina, cosa;
+                sincos(alpha, sina, cosa);
+                float2x2 m = float2x2(cosa, -sina, sina, cosa);
+                return float4(mul(m, vertex.xz), vertex.yw).xzyw;
+
+            }
             Interpolators MyVertexProgram(VertexData v)
             {
-                Interpolators i;              
+                Interpolators i;      
+              //  v.position = RotateAroundYInDegrees(v.position,_Angle);        
                 i.position = UnityObjectToClipPos(v.position);
                 i.uv = v.uv ;
                 return i;
