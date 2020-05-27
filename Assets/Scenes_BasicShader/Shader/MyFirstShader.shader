@@ -18,6 +18,7 @@ Shader "Custom/MyFirstShader"
             #include "UnityCG.cginc"
             float4 _Tint;
             sampler2D _MainTex;
+          
             struct Interpolators 
             {
                 float4 position : SV_POSITION;
@@ -33,14 +34,14 @@ Shader "Custom/MyFirstShader"
             {
                 Interpolators i;              
                 i.position = UnityObjectToClipPos(v.position);
-                i.uv = v.uv;
+                i.uv = v.uv ;
                 return i;
 
             }
             float4 MyFragmentProgram(Interpolators i):SV_TARGET
             {
                // return float4(i.uv,1,1) ;
-               return tex2D(_MainTex,i.uv);
+               return tex2D(_MainTex,i.uv) *_Tint;
 
             }
 
