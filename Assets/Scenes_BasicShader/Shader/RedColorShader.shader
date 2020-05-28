@@ -29,9 +29,9 @@
                 o.pos=UnityObjectToClipPos(i.pos);
                 return o;
             }
-            half4 frag(VertexOut o) :SV_TARGET 
+            half4 frag(VertexOut o) :COLOR 
             {
-                return half4(1.0, 0.0, 0.0, 1.0); 
+                return half4(1.0, 1.0, 0.0, 1.0); 
 
             }
        
