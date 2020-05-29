@@ -11,7 +11,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Fail_Texture_Diffuse
-    second: {fileID: 2100000, guid: c180cf48ed746ef4c8a1bba947a03d6c, type: 2}
+    second: {fileID: 2100000, guid: 52b53e8ebd0505d43ac5891b18fbf6ff, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
