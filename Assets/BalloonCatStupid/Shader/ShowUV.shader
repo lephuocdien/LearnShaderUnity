@@ -33,7 +33,7 @@
                 float4 color :SV_TARGET;
 
             };         
-            fragOutput frag(v2f i):SV_TARGET
+            fragOutput frag(v2f i)
             {
                 fragOutput o;
                 o.color= fixed4(i.uv,0,0);
