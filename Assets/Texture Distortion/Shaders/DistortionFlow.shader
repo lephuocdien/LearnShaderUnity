@@ -19,11 +19,13 @@
         #pragma target 3.0
   
 
-        float3 FlowUVW(float2 uv, float2 flowVector, float time)
+        float3 FlowUVW(float2 uv, float2 flowVector, float time,bool phaseB)
         {
-            float progress = frac(time);
+            float phaseA = phaseB ? 0.5 : 0;
+            float progress = frac(time+ phaseA);
             float3 uvw;
-            uvw.xy= uv - flowVector * progress;
+            
+            uvw.xy= uv - flowVector * progress ;
             uvw.z = 1 - abs(1 - 2 * progress);
             return uvw;
         }
@@ -55,9 +57,15 @@
             float2 flowVector = tex2D(_FlowMap, IN.uv_FlowMap).rg * 2 - 1;
             float alpha = tex2D(_FlowMap, IN.uv_FlowMap).a;
             float ttime = alpha + _Time.x;
-            float3 uvw = FlowUVW(IN.uv_MainTex, flowVector, ttime);
+
+
+            float3 uvwA = FlowUVW(IN.uv_MainTex, flowVector, ttime,false);
+            float3 uvwB = FlowUVW(IN.uv_MainTex, flowVector, ttime, true);
         
-            fixed4 c = tex2D(_MainTex, uvw.xy)*uvw.z * _Color;
+            fixed4 texA = tex2D(_MainTex, uvwA.xy) * uvwA.z;
+            fixed4 texB = tex2D(_MainTex, uvwB.xy) * uvwB.z;
+
+            fixed4 c = (texA+ texB) * _Color;
             o.Albedo = c.rgb;
 
             o.Metallic = _Metallic;
