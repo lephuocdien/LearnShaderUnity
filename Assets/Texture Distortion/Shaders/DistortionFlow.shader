@@ -24,7 +24,7 @@
             float progress = frac(time);
             float3 uvw;
             uvw.xy= uv - flowVector * progress;
-            uvw.z = 1;
+            uvw.z = 1 - abs(1 - 2 * progress);
             return uvw;
         }
 
@@ -53,7 +53,10 @@
         {
             
             float2 flowVector = tex2D(_FlowMap, IN.uv_FlowMap).rg * 2 - 1;
-            float3 uvw = FlowUVW(IN.uv_MainTex, flowVector, _Time.x);
+            float alpha = tex2D(_FlowMap, IN.uv_FlowMap).a;
+            float ttime = alpha + _Time.x;
+            float3 uvw = FlowUVW(IN.uv_MainTex, flowVector, ttime);
+        
             fixed4 c = tex2D(_MainTex, uvw.xy)*uvw.z * _Color;
             o.Albedo = c.rgb;
 
