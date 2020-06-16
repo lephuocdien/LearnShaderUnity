@@ -43,7 +43,8 @@
             // put more per-instance properties here
         UNITY_INSTANCING_BUFFER_END(Props)
 
-            void surf(Input IN, inout SurfaceOutputStandard o) {
+            void surf(Input IN, inout SurfaceOutputStandard o) 
+        {
             float d = distance(_Center, IN.worldPos);
             if (d > _Radius && d < _Radius + _RadiusWidth)
                 o.Albedo = _RadiusColor;
